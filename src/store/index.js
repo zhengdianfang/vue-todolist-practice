@@ -21,7 +21,7 @@ export default new Vuex.Store({
             state.tasks.push(payload);
         },
         updateTask(state, payload) {
-            const index = _.findIndex(this.tasks, { id: payload.id });
+            const index = _.findIndex(state.tasks, { id: payload.id });
             if (index >= 0) {
                 state.tasks.splice(index, 1, payload);
             }
