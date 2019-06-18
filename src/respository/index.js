@@ -1,11 +1,8 @@
-import _ from 'lodash';
-
 export default class Respository {
 
     constructor(store) {
         this.store = store;
     }
-    tasks = [];
     store = undefined;
 
     addNewTask(newTask) {

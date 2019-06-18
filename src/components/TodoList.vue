@@ -12,18 +12,27 @@
 
 <script>
 import TodoItem from './TodoItem';
+import Respository from '../respository';
+
 
 export default {
   name: 'TodoList',
-  props: {
-    tasks: Array,
+  respository: undefined,
+  data() {
+    return {
+      tasks: [], 
+    }
+  },
+  mounted(){
+    this.respository = new Respository(this.$store);
+    this.tasks = this.respository.filterByStatus();
   },
   components: {
     TodoItem,
   },
   methods: {
     updateTask(param) {
-      this.$emit('updateTask', param);
+      this.respository.updateTask(param);
     }
   }
 }

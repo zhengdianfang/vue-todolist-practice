@@ -12,7 +12,7 @@ export default new Vuex.Store({
             if (status) {
                 return _.filter(state.tasks, item => item.status === status); 
             }
-            return this.tasks;
+            return state.tasks;
         }
     },
     mutations: {
