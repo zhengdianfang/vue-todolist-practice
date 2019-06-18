@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { FETCH_TASK_LIST_URL } from '../constant';
+import _ from 'lodash';
 export default class Respository {
 
     constructor(store) {
@@ -15,5 +18,11 @@ export default class Respository {
 
     filterByStatus() {
         return this.store.getters.filterByStatus;
+    }
+
+    fetchAllTasks() {
+        axios.get(FETCH_TASK_LIST_URL)
+            .then((response) => this.store.commit('updateTaskList', response.data))
+            .catch(_.noop);
     }
 }

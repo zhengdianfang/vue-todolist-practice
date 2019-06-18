@@ -26,6 +26,9 @@ export default {
   created(){
     this.respository = new Respository(this.$store);
   },
+  mounted() {
+    this.respository.fetchAllTasks();
+  },
   components: {
     TodoItem,
   },
