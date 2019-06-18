@@ -21,7 +21,6 @@ export default new Vuex.Store({
     },
     mutations: {
         addNewTask(state, payload) {
-            payload.id = state.tasks.length + 1;
             state.tasks.push(payload);
         },
         updateTask(state, payload) {

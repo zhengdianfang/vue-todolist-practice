@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_TASK_LIST_URL } from '../constant';
+import { FETCH_TASK_LIST_URL, CREATE_TASK_URL } from '../constant';
 import _ from 'lodash';
 export default class Respository {
 
@@ -9,7 +9,10 @@ export default class Respository {
     store = undefined;
 
     addNewTask(newTask) {
-        this.store.commit('addNewTask', newTask);
+        axios.post(CREATE_TASK_URL, newTask)
+            .then((response) => this.store.commit('addNewTask', response.data.data))
+            .catch(_.noop)
+        
     }
 
     updateTask(task) {
