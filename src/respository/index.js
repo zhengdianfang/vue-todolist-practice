@@ -10,7 +10,7 @@ export default class Respository {
     }
 
     updateTask(task) {
-        const index = _.findInde(this.tasks, { id: task.id });
+        const index = _.findIndex(this.tasks, { id: task.id });
         if (index >= 0) {
             this.tasks.splice(index, 1, task);
         }
