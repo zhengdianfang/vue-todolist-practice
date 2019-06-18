@@ -2,21 +2,21 @@
     <div class="FilterTabs_container">
         <button
             class="FilterTabs_container_button-normal" 
-            :class="{ 'FilterTabs_container_button-selected': (selected === 0)}"
+            :class="{ 'FilterTabs_container_button-selected': (tabType === 0)}"
             @click="clickTab(0)"
         >
             All
         </button>
         <button
             class="FilterTabs_container_button-normal"
-            :class="{ 'FilterTabs_container_button-selected': (selected === 1)}"
+            :class="{ 'FilterTabs_container_button-selected': (tabType === 1)}"
             @click="clickTab(1)"
         >
             Undo
         </button>
         <button
             class="FilterTabs_container_button-normal"
-            :class="{ 'FilterTabs_container_button-selected': (selected === 2)}"
+            :class="{ 'FilterTabs_container_button-selected': (tabType === 2)}"
             @click="clickTab(2)"
          >
             Done
@@ -25,29 +25,19 @@
 </template>
 
 <script>
-import { UNDO, DONE, ALL_TAB, UNDO_TAB, DONE_TAB } from '../constant';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
    name: 'FilterTabs',
-   data() {
-       return {
-           selected: ALL_TAB,
-       }
-   },
+   computed: mapState([
+       'tabType'
+   ]),
    methods: {
+       ...mapMutations([
+           'updateTabType',
+       ]),
        clickTab(type) {
-           this.selected = type;
-           switch(type) {
-               case ALL_TAB:
-                this.$emit('switchFilterStatus', undefined);
-                break;
-               case UNDO_TAB:
-                this.$emit('switchFilterStatus', UNDO);
-                break;
-               case DONE_TAB:
-                this.$emit('switchFilterStatus', DONE);
-                break;
-           }
+           this.updateTabType(type);
        }
    }
 }

@@ -13,7 +13,7 @@ export default class Respository {
         this.store.commit('updateTask', task);
     }
 
-    filterByStatus(status) {
-        return this.store.getters.filterByStatus(status);
+    filterByStatus() {
+        return this.store.getters.filterByStatus;
     }
 }

@@ -18,14 +18,13 @@ import Respository from '../respository';
 export default {
   name: 'TodoList',
   respository: undefined,
-  data() {
-    return {
-      tasks: [], 
+  computed: {
+    tasks() {
+      return this.respository.filterByStatus();
     }
   },
-  mounted(){
+  created(){
     this.respository = new Respository(this.$store);
-    this.tasks = this.respository.filterByStatus();
   },
   components: {
     TodoItem,

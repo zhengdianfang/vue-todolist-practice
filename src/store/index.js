@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
-import { ALL_TAB } from '../constant';
+import { ALL_TAB, UNDO_TAB, DONE_TAB, UNDO, DONE } from '../constant';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -10,9 +10,11 @@ export default new Vuex.Store({
         tabType: ALL_TAB, 
     },
     getters: {
-        filterByStatus: (state) => (status) => {
-            if (status) {
-                return _.filter(state.tasks, item => item.status === status); 
+        filterByStatus(state) {
+            if (state.tabType === DONE_TAB) {
+                return _.filter(state.tasks, item => item.status === DONE);
+            } else if (state.tabType === UNDO_TAB) {
+                return _.filter(state.tasks, item => item.status === UNDO);
             }
             return state.tasks;
         }
@@ -28,5 +30,8 @@ export default new Vuex.Store({
                 state.tasks.splice(index, 1, payload);
             }
         },
+        updateTabType(state, payload) {
+            state.tabType = payload;
+        }
     }
 });

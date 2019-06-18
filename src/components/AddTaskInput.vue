@@ -15,7 +15,7 @@ import Respository from '../respository';
 export default {
     name: "AddTaskInput",
     respository: undefined,
-    mounted() {
+    created() {
         this.respository = new Respository(this.$store);
     },
     data() {
