@@ -2,22 +2,22 @@
     <div class="FilterTabs_container">
         <button
             class="FilterTabs_container_button-normal" 
-            :class="{ 'FilterTabs_container_button-selected': (selected === 'All')}"
-            @click="clickTab('All')"
+            :class="{ 'FilterTabs_container_button-selected': (selected === 0)}"
+            @click="clickTab(0)"
         >
             All
         </button>
         <button
             class="FilterTabs_container_button-normal"
-            :class="{ 'FilterTabs_container_button-selected': (selected === 'Undo')}"
-            @click="clickTab('Undo')"
+            :class="{ 'FilterTabs_container_button-selected': (selected === 1)}"
+            @click="clickTab(1)"
         >
             Undo
         </button>
         <button
             class="FilterTabs_container_button-normal"
-            :class="{ 'FilterTabs_container_button-selected': (selected === 'Done')}"
-            @click="clickTab('Done')"
+            :class="{ 'FilterTabs_container_button-selected': (selected === 2)}"
+            @click="clickTab(2)"
          >
             Done
          </button>
@@ -25,25 +25,32 @@
 </template>
 
 <script>
-export const ALL = 'All';
-export const UNDO = 'Undo';
-export const DONE = 'Done';
+import { UNDO, DONE } from '../constant';
+const ALL_TAB = 0;
+const UNDO_TAB = 1;
+const DONE_TAB = 2;
+
 export default {
    name: 'FilterTabs',
    data() {
        return {
-           selected: ALL,
-       }
-   },
-   computed: {
-       buttonStyle(type) {
-           return this.selected === type ? 'FilterTabs_container_button-normal' : 'FilterTabs_container_button-selected'
+           selected: ALL_TAB,
        }
    },
    methods: {
        clickTab(type) {
            this.selected = type;
-           this.$emit('switchFilterType', type);
+           switch(type) {
+               case ALL_TAB:
+                this.$emit('switchFilterStatus', undefined);
+                break;
+               case UNDO_TAB:
+                this.$emit('switchFilterStatus', UNDO);
+                break;
+               case DONE_TAB:
+                this.$emit('switchFilterStatus', DONE);
+                break;
+           }
        }
    }
 }

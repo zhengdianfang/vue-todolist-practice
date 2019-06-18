@@ -5,7 +5,7 @@
    >
         
       <span 
-        :class="{'TodoItem_container-done': task.done}"
+        :class="{'TodoItem_container-done': task.status === 'Done'}"
         :style="{ display: editable ? 'none' : 'block' }"
       >
         {{ index + 1 }}. {{ task.content }}
@@ -16,11 +16,13 @@
         v-model="content"
         @keyup.enter="updateTaskContent"
       />
-      <input type="checkbox" :checked="task.done" @change="onChange" />
+      <input type="checkbox" :checked="task.status === 'Done'" @change="onChange" />
   </div>
 </template>
 
 <script>
+import { DONE, UNDO } from '../constant';
+
 export default {
   name: 'TodoItem',
   props: {
@@ -41,10 +43,10 @@ export default {
   },
   methods: {
     onChange(event) {
-        this.$emit('updateTask', { index: this.index, task: { ...this.task, done: event.target.checked } });
+        this.$emit('updateTask', { ...this.task, status: event.target.checked ? DONE: UNDO });
     },
     updateTaskContent() {
-        this.$emit('updateTask', { index: this.index, task: { ...this.task, content: this.content } });
+        this.$emit('updateTask', { ...this.task, content: this.content });
         this.editable = false;
     },
     changeEditStatus() {
