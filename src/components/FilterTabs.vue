@@ -25,10 +25,7 @@
 </template>
 
 <script>
-import { UNDO, DONE } from '../constant';
-const ALL_TAB = 0;
-const UNDO_TAB = 1;
-const DONE_TAB = 2;
+import { UNDO, DONE, ALL_TAB, UNDO_TAB, DONE_TAB } from '../constant';
 
 export default {
    name: 'FilterTabs',

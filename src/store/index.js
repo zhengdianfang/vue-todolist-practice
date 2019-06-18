@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
+import { ALL_TAB } from '../constant';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         tasks: [],
+        tabType: ALL_TAB, 
     },
     getters: {
         filterByStatus: (state) => (status) => {
