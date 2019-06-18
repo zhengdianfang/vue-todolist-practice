@@ -1,26 +1,22 @@
 import _ from 'lodash';
 
 export default class Respository {
+
+    constructor(store) {
+        this.store = store;
+    }
     tasks = [];
+    store = undefined;
 
     addNewTask(newTask) {
-        newTask.id = this.tasks.length + 1;
-        this.tasks.push(newTask);
-        return this.tasks;
+        this.store.commit('addNewTask', newTask);
     }
 
     updateTask(task) {
-        const index = _.findIndex(this.tasks, { id: task.id });
-        if (index >= 0) {
-            this.tasks.splice(index, 1, task);
-        }
-        return this.tasks;
+        this.store.commit('updateTask', task);
     }
 
     filterByStatus(status) {
-        if (status) {
-            return _.filter(this.tasks, item => item.status === status); 
-        }
-        return this.tasks;
+        return this.store.getters.filterByStatus(status);
     }
 }
