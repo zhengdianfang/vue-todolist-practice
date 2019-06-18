@@ -7,8 +7,17 @@ export default new Vuex.Store({
     state: {
         tasks: [],
     },
+    getters: {
+        filterByStatus: (state) => (status) => {
+            if (status) {
+                return _.filter(state.tasks, item => item.status === status); 
+            }
+            return this.tasks;
+        }
+    },
     mutations: {
         addNewTask(state, payload) {
+            payload.id = state.tasks.length + 1;
             state.tasks.push(payload);
         },
         updateTask(state, payload) {
