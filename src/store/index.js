@@ -32,6 +32,9 @@ export default new Vuex.Store({
         },
         updateTabType(state, payload) {
             state.tabType = payload;
-        }
+        },
+        updateTaskList(state, payload) {
+            state.tasks.push(...payload);
+        },
     }
 });
