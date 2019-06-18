@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <AddTaskInput @createNewTask="createNewTask" />
-    <FilterTabs @switchFilterType="switchFilterType" />
-    <TodoList :tasks="filterTasks" @updateTask="updateTask" />
+    <FilterTabs @switchFilterStatus="switchFilterStatus" />
+    <TodoList :tasks="tasks" @updateTask="updateTask" />
   </div>
 </template>
 
@@ -10,20 +10,16 @@
 import TodoList from './components/TodoList';
 import AddTaskInput from './components/AddTaskInput';
 import FilterTabs from './components/FilterTabs';
-import { ALL, UNDO, DONE } from './components/FilterTabs.vue';
-import _ from 'lodash';
+import Respository from './respository';
+
+const respository = new Respository();
 
 export default {
   name: 'app',
   data() {
     return {
-      tasks: [], 
-      filter: null,
-    }
-  },
-  computed: {
-    filterTasks() {
-      return _.filter(this.tasks, this.filter);
+      filterStatus: undefined,
+      tasks: respository.filterByStatus(this.filterStatus),
     }
   },
   components: {
@@ -31,21 +27,20 @@ export default {
     AddTaskInput,
     FilterTabs,
   },
+  watch: {
+    filterStatus(newValue) {
+      this.tasks = respository.filterByStatus(newValue);
+    }
+  },
   methods: {
     createNewTask(newTask) {
-      this.tasks.push(newTask);
+      this.tasks = respository.addNewTask(newTask);
     },
-    switchFilterType(type) {
-      if (type === ALL) {
-        this.filter = null;
-      } else if (type === UNDO) {
-        this.filter = (task) => !task.done;
-      } else if (type === DONE) {
-        this.filter = (task) => task.done;
-      }
+    switchFilterStatus(status) {
+      this.filterStatus = status;
     },
-    updateTask({ index, task }) {
-      this.tasks.splice(index, 1, task);
+    updateTask(task) {
+      this.tasks = respository.updateTask(task); 
     }
   }
 }
