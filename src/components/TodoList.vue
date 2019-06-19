@@ -12,29 +12,19 @@
 
 <script>
 import TodoItem from './TodoItem';
-import Respository from '../respository';
-
+import { mapState } from 'vuex';
 
 export default {
   name: 'TodoList',
-  respository: undefined,
-  computed: {
-    tasks() {
-      return this.respository.filterByStatus();
-    }
-  },
-  created(){
-    this.respository = new Respository(this.$store);
-  },
-  mounted() {
-    this.respository.fetchAllTasks();
-  },
+  computed: mapState([
+    'tasks',
+  ]),
   components: {
     TodoItem,
   },
   methods: {
     updateTask(param) {
-      this.respository.updateTask(param);
+      this.$store.commit('updateTask', param);
     }
   }
 }

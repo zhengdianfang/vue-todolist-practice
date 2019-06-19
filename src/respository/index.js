@@ -2,11 +2,7 @@ import axios from 'axios';
 import { FETCH_TASK_LIST_URL, CREATE_TASK_URL } from '../constant';
 import _ from 'lodash';
 export default class Respository {
-
-    constructor(store) {
-        this.store = store;
-    }
-    store = undefined;
+    tasks = [];
 
     addNewTask(newTask) {
         axios.post(CREATE_TASK_URL, newTask)
@@ -16,11 +12,17 @@ export default class Respository {
     }
 
     updateTask(task) {
-        this.store.commit('updateTask', task);
+        const index = this.tasks.findIndex(elem => elem.id == task.id);
+        if (index >= 0) {
+            this.tasks.splice(index, 1, task);
+        }
     }
 
-    filterByStatus() {
-        return this.store.getters.filterByStatus;
+    filterByStatus(status) {
+        if (status) {
+            return this.tasks.filter(item => item.status === status); 
+        }
+        return this.tasks;
     }
 
     fetchAllTasks() {

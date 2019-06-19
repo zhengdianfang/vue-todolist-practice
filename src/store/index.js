@@ -1,39 +1,32 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import _ from 'lodash';
 import { ALL_TAB, UNDO_TAB, DONE_TAB, UNDO, DONE } from '../constant';
+import Respository from '../respository';
 
 Vue.use(Vuex);
+const respository = new Respository();
+
 export default new Vuex.Store({
     state: {
-        tasks: [],
+        tasks: respository.filterByStatus(),
         tabType: ALL_TAB, 
-    },
-    getters: {
-        filterByStatus(state) {
-            if (state.tabType === DONE_TAB) {
-                return _.filter(state.tasks, item => item.status === DONE);
-            } else if (state.tabType === UNDO_TAB) {
-                return _.filter(state.tasks, item => item.status === UNDO);
-            }
-            return state.tasks;
-        }
     },
     mutations: {
         addNewTask(state, payload) {
-            state.tasks.push(payload);
+            respository.addNewTask(payload);
         },
         updateTask(state, payload) {
-            const index = _.findIndex(state.tasks, { id: payload.id });
-            if (index >= 0) {
-                state.tasks.splice(index, 1, payload);
-            }
+            respository.updateTask(payload);
         },
         updateTabType(state, payload) {
             state.tabType = payload;
-        },
-        updateTaskList(state, payload) {
-            state.tasks.push(...payload);
-        },
-    }
+            if (state.tabType === DONE_TAB) {
+                    state.tasks = respository.filterByStatus(DONE); 
+                } else if (state.tabType === UNDO_TAB) {
+                    state.tasks = respository.filterByStatus(UNDO); 
+                } else {
+                    state.tasks = respository.filterByStatus();
+                }
+            }
+        }
 });
