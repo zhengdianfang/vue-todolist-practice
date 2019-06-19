@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { FETCH_TASK_LIST_URL, CREATE_TASK_URL } from '../constant';
-import _ from 'lodash';
 export default class Respository {
     tasks = [];
 
     addNewTask(newTask) {
         axios.post(CREATE_TASK_URL, newTask)
-            .then((response) => this.store.commit('addNewTask', response.data.data))
-            .catch(_.noop)
+            .then((response) => this.tasks.push(response.data.data))
+            .catch(() => {})
         
     }
 
@@ -25,9 +24,12 @@ export default class Respository {
         return this.tasks;
     }
 
-    fetchAllTasks() {
+    fetchAllTasks(callback) {
         axios.get(FETCH_TASK_LIST_URL)
-            .then((response) => this.store.commit('updateTaskList', response.data))
-            .catch(_.noop);
+            .then((response) => {
+                this.tasks = response.data;
+                callback();
+            })
+            .catch(() => {});
     }
 }

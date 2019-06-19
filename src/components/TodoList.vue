@@ -12,10 +12,13 @@
 
 <script>
 import TodoItem from './TodoItem';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'TodoList',
+  mounted() {
+    this.fetchAllTask();
+  },
   computed: mapState([
     'tasks',
   ]),
@@ -23,6 +26,9 @@ export default {
     TodoItem,
   },
   methods: {
+    ...mapActions([
+      'fetchAllTask',
+    ]),
     updateTask(param) {
       this.$store.commit('updateTask', param);
     }

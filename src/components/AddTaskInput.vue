@@ -20,8 +20,10 @@ export default {
     },
     methods: {
        submitNewTask() {
-           this.$store.commit('addNewTask', { content: this.content, status: UNDO });
-           this.content = '';
+           if (this.content.trim() !== '') {
+                this.$store.commit('addNewTask', { content: this.content, status: UNDO });
+                this.content = '';
+           }
        } 
     },
 }
