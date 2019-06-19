@@ -10,14 +10,9 @@
 
 <script>
 import { UNDO } from '../constant';
-import Respository from '../respository';
 
 export default {
     name: "AddTaskInput",
-    respository: undefined,
-    created() {
-        this.respository = new Respository(this.$store);
-    },
     data() {
         return {
             content: '',
@@ -25,7 +20,7 @@ export default {
     },
     methods: {
        submitNewTask() {
-           this.respository.addNewTask({ content: this.content, status: UNDO });
+           this.$store.commit('addNewTask', { content: this.content, status: UNDO });
            this.content = '';
        } 
     },
