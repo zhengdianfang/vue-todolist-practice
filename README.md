@@ -1,4 +1,6 @@
 # vue-todolist
+ - integrate-vuex 分支集成了vuex
+ - integrate-request-api 分支实现call api
 
 ## Project setup
 ```
