@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export default class Respository {
     tasks = [];
 
@@ -10,7 +8,7 @@ export default class Respository {
     }
 
     updateTask(task) {
-        const index = _.findIndex(this.tasks, { id: task.id });
+        const index = this.tasks.findIndex(elem => elem.id == task.id);
         if (index >= 0) {
             this.tasks.splice(index, 1, task);
         }
@@ -19,7 +17,7 @@ export default class Respository {
 
     filterByStatus(status) {
         if (status) {
-            return _.filter(this.tasks, item => item.status === status); 
+            return this.tasks.filter(item => item.status === status); 
         }
         return this.tasks;
     }
