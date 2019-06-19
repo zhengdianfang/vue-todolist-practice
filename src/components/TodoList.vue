@@ -12,7 +12,6 @@
 
 <script>
 import TodoItem from './TodoItem';
-import Respository from '../respository';
 
 
 export default {

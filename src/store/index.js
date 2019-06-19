@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import _ from 'lodash';
 import { ALL_TAB, UNDO_TAB, DONE_TAB, UNDO, DONE } from '../constant';
+import Respository from '../respository';
 
 Vue.use(Vuex);
+const respository = new Respository();
+
 export default new Vuex.Store({
     state: {
         tasks: [],
@@ -12,23 +14,23 @@ export default new Vuex.Store({
     getters: {
         filterByStatus(state) {
             if (state.tabType === DONE_TAB) {
-                return _.filter(state.tasks, item => item.status === DONE);
+                state.tasks = respository.filterByStatus(DONE); 
             } else if (state.tabType === UNDO_TAB) {
-                return _.filter(state.tasks, item => item.status === UNDO);
+                state.tasks = respository.filterByStatus(UNDO); 
             }
             return state.tasks;
         }
     },
     mutations: {
         addNewTask(state, payload) {
-            payload.id = state.tasks.length + 1;
-            state.tasks.push(payload);
+            respository.addNewTask(payload, () => {
+                state.tasks.push(payload);
+            });
         },
         updateTask(state, payload) {
-            const index = _.findIndex(state.tasks, { id: payload.id });
-            if (index >= 0) {
+            respository.updateTask(payload, (index) => {
                 state.tasks.splice(index, 1, payload);
-            }
+            });
         },
         updateTabType(state, payload) {
             state.tabType = payload;

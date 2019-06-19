@@ -1,19 +1,24 @@
 export default class Respository {
+    tasks = [];
 
-    constructor(store) {
-        this.store = store;
-    }
-    store = undefined;
-
-    addNewTask(newTask) {
-        this.store.commit('addNewTask', newTask);
+    addNewTask(newTask, callback) {
+        newTask.id = this.tasks.length + 1;
+        this.tasks.push(newTask);
+        callback();
     }
 
-    updateTask(task) {
-        this.store.commit('updateTask', task);
+    updateTask(task, callback) {
+        const index = this.tasks.findIndex(elem => elem.id == task.id);
+        if (index >= 0) {
+            this.tasks.splice(index, 1, task);
+        }
+        callback(index);
     }
 
-    filterByStatus() {
-        return this.store.getters.filterByStatus;
+    filterByStatus(status) {
+        if (status) {
+            return this.tasks.filter(item => item.status === status); 
+        }
+        return this.tasks;
     }
 }
